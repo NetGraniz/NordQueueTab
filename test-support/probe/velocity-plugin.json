@@ -1,0 +1,1 @@
+{"id":"nordqueuetabtest","name":"LOCAL ONLY TAB probe","version":"1","main":"com.nordfjell.nordqueuetabtest.TabTestProbe","dependencies":[{"id":"nordqueue","optional":false},{"id":"nordqueuetab","optional":false}]}

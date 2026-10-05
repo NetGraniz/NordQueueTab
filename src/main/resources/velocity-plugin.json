@@ -1,0 +1,1 @@
+{"id":"nordqueuetab","name":"NordQueueTab","version":"1.1.0","description":"Bounded queue-only player list presentation for Nord Fjell","authors":["Nord Fjell"],"dependencies":[{"id":"nordqueue","optional":false}],"main":"com.nordfjell.nordqueuetab.NordQueueTabPlugin"}
