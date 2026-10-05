@@ -1,5 +1,8 @@
 # NordQueueTab 1.1.0
 
+> Release build and installation requirements: see [BUILDING.md](BUILDING.md).
+> Older local paths below describe historical test fixtures, not the release build.
+
 Separate Velocity presentation plugin for NordQueue. It renders the queue-only header,
 footer, and player list. If it is disabled, queue routing continues to work normally.
 

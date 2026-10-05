@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-@Plugin(id = "nordqueuetab", name = "NordQueueTab", version = "1.1.0",
+@Plugin(id = "nordqueuetab", name = "NordQueueTab", version = "1.1.1",
     description = "Bounded queue-only player list", authors = {"Nord Fjell"},
     dependencies = {@Dependency(id = "nordqueue")})
 public final class NordQueueTabPlugin {
@@ -60,7 +60,7 @@ public final class NordQueueTabPlugin {
             proxy.getCommandManager().register(proxy.getCommandManager().metaBuilder("nordqueuetab")
                 .plugin(this).build(), new ReloadCommand());
             startTask();
-            logger.info("NordQueueTab 1.1.0 enabled, at most {} owned entries per viewer.", settings.maxVisible());
+            logger.info("NordQueueTab 1.1.1 enabled, at most {} owned entries per viewer.", settings.maxVisible());
         }
     }
 
