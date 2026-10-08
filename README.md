@@ -1,39 +1,41 @@
-# NordQueueTab 1.1.0
+# NordQueueTab
 
-> Release build and installation requirements: see [BUILDING.md](BUILDING.md).
-> Older local paths below describe historical test fixtures, not the release build.
+Queue-only TAB presentation for Velocity. NordQueue owns routing; disabling NordQueueTab does not stop the queue.
 
-Separate Velocity presentation plugin for NordQueue. It renders the queue-only header,
-footer, and player list. If it is disabled, queue routing continues to work normally.
+## Compatibility
 
-Command: `/nordqueuetab` (`nordqueuetab.admin`) reloads its configuration.
+Requires NordQueue 1.1.1 or newer with the snapshot API. The integration was tested with Velocity 4.2.1 and Java 25. NordQueue 1.1.0 lacks the required API.
 
-Requires **NordQueue 1.1.1 or newer with the snapshot API** and the tested Velocity
-4.2.1 / Java 25 environment. This is a prepared release, not a production deployment.
-Do not install it alone on the current NordQueue 1.1.0 proxy.
+## Display
 
-The default `max-visible-players=80` shows the first 80 queue players; a viewer
-outside that page sees the first 79 and themselves. Range: 1..80. The bound applies
-to this plugin's owned entries, not additional entries supplied by another plugin.
-`<position>` is now the **combined** priority + regular queue position, rather than
-the old per-group position. `<estimate>` remains recognized but says
-`depends on available slots`: queue position cannot predict how long a full server
-will stay full. Existing custom headers remain unchanged on disk.
+`max-visible-players` defaults to 80 and accepts 1..80. A viewer inside the visible prefix sees the first entries. A viewer outside it sees the first 79 plus themselves at the default limit.
 
-`update-interval-millis` accepts 500..60000; default 1000. MiniMessage `header`,
-`footer`, and `player-format` support unparsed placeholders. Invalid numerical
-configuration fails reload and keeps the last valid settings; no file is rewritten
-during reload. Disconnect and proxy shutdown release viewer state. Entries owned
-by the backend or other plugins are not adopted or removed; the queue backend must
-not supply a competing full TAB. Queue header/footer should also have one owner.
+This bounds entries owned by NordQueueTab, not entries created by other plugins. The plugin does not adopt or remove another plugin's entries. Avoid a competing full TAB renderer on the queue backend; header/footer rendering should have one owner.
 
-Build on the Codex workstation (sources and outputs stay on the network share):
+`<position>` is the combined priority-plus-regular position, not the old per-group position. The recognized `<estimate>` placeholder renders `depends on available slots`; it does not promise an ETA when the main server is full.
 
-```powershell
-& 'Z:\Minecraft Plagins\NordQueueTab\build.ps1' -ProxyPath 'C:\Users\artyo\Documents\Codex\nordqueuetab-test-20261003\proxy'
-```
+Header, footer and `player-format` use MiniMessage with unparsed placeholders. Existing custom header text is not rewritten on disk.
 
-Build runs the 17 dependency-free regression scenarios automatically. See
-[OPTIMIZATION-1.1.0.md](OPTIMIZATION-1.1.0.md) for scope, test evidence, deployment
-requirements and limitations. `test-support` contains **local-only** helpers;
-never place its probe JAR on the public proxy.
+## Configuration
+
+`update-interval-millis` accepts 500..60000 and defaults to 1000. Invalid numeric settings on reload retain the previous settings without rewriting the file.
+
+Disconnect and shutdown release viewer state.
+
+## Permissions
+
+| Permission | Allows |
+| --- | --- |
+| `nordqueuetab.admin` | `/nordqueuetab` and `/nordqueuetab reload` |
+
+Velocity's permission provider supplies player grants; the plugin registers no default player grant. A Paper/Folia permission assignment does not grant proxy access.
+
+Viewing the queue TAB requires no separate permission.
+
+## Build and tests
+
+Use Maven 3.9+ and JDK 25: `mvn clean verify` or `./build.ps1`. See [BUILDING.md](BUILDING.md).
+
+The older network-share `build.ps1 -ProxyPath` command and `C:\Users\artyo\Documents\Codex\nordqueuetab-test-20261003\proxy` directory describe a historical local fixture, not the current release build.
+
+The 1.1.0 optimization checks include 17 dependency-free regression scenarios. The original [OPTIMIZATION-1.1.0.md](OPTIMIZATION-1.1.0.md) reference names a historical report excluded from the public repository; that file is not available here. Probe helpers belong only on isolated fixtures, never on a public proxy.
